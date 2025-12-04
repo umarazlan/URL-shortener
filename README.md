@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # URL Shortener
 
 A simple, efficient URL shortener built with Node.js (native modules) and Vanilla JavaScript. This project demonstrates how to build a functional web application without relying on heavy frameworks or external dependencies for the backend.
@@ -74,3 +75,6 @@ URL_HTML_TAILWIND_NODE/
     ├── index.html      # Frontend HTML
     └── style.css       # Frontend CSS
 ```
+=======
+# URL-shortener
+>>>>>>> 39f3fc36db2c76f92a705251af843968f607315e

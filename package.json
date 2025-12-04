@@ -1,0 +1,22 @@
+{
+  "name": "url_html_tailwind_node",
+  "version": "1.0.0",
+  "description": "<<<<<<< HEAD\r # URL Shortener",
+  "main": "App.js",
+  "scripts": {
+    "dev": "node --watch App.js",
+    "start": "node App.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/umarazlan/URL-shortener.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/umarazlan/URL-shortener/issues"
+  },
+  "homepage": "https://github.com/umarazlan/URL-shortener#readme"
+}

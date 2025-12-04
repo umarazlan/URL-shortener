@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>URL SHORTENER</h1>
+        <form id="shorten-form">
+            <div>
+                <label for="url">Enter URL</label>
+                <input type="url" name="url" id="url" required placeholder="https://example.com">
+            </div>
+            <div>
+                <label for="shortCode">Enter Short Code</label>
+                <input type="text" name="shortCode" id="shortCode" placeholder="e.g. my-link">
+            </div>
+            <button type="submit">Shorten URL</button>
+        </form>
+
+        <h2>SHORTENED URLS</h2>
+        <ul id="shortened-urls">
+            <!-- List items will be added here dynamically -->
+        </ul>
+    </div>
+
+    <script>
+        const fetchShortenedURL = async () => {
+            try {
+                const response = await fetch('/links');
+                const links = await response.json();
+                console.log(links);
+
+                const list = document.getElementById('shortened-urls');
+                list.innerHTML = '';
+
+                for (const [shortCode, url] of Object.entries(links)) {
+                    const li = document.createElement('li');
+                    const shortUrl = `${window.location.origin}/${shortCode}`;
+
+                    li.innerHTML = `
+                        <div class="link-info">
+                            <a href="/${shortCode}" target="_blank" class="short-link">${shortUrl}</a>
+                            <span class="original-link" title="${url}">${url}</span>
+                        </div>
+                        <div class="link-actions">
+                            <button class="copy-btn" onclick="navigator.clipboard.writeText('${shortUrl}').then(() => alert('Copied!'))" title="Copy to clipboard">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            </button>
+                        </div>
+                    `;
+                    list.appendChild(li);
+                }
+            } catch (error) {
+                console.error('Error fetching links:', error);
+            }
+        }
+
+        document.getElementById('shorten-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const url = formData.get('url');
+            const shortCode = formData.get('shortCode');
+            console.log(url, shortCode);
+
+            try {
+                const response = await fetch(`/shorten`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url, shortCode }),
+                });
+
+                if (response.ok) {
+                    fetchShortenedURL();
+                    alert('URL shortened successfully!');
+                    event.target.reset();
+                } else {
+                    const text = await response.text();
+                    alert(text);
+                }
+            } catch (error) {
+                console.error('Error shortening URL:', error);
+                alert('An error occurred. Please try again.');
+            }
+        })
+        fetchShortenedURL();
+    </script>
+</body>
+
+</html>

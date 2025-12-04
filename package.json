@@ -4,8 +4,7 @@
   "description": "<<<<<<< HEAD\r # URL Shortener",
   "main": "App.js",
   "scripts": {
-    "dev": "node --watch App.js",
-    "start": "node App.js"
+     "build": "echo 'No build needed'" 
   },
   "repository": {
     "type": "git",
